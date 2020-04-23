@@ -1,10 +1,12 @@
 #include <string>
+#include "Door.hpp"
 #ifndef Room_hpp
 #define Room_hpp
-#include "Door.hpp"
+
 
 
 using namespace std;
+//class Door;
 
 class Room
 {
@@ -20,6 +22,8 @@ class Room
         void display();
         Door* getDoorAtIndex(int index);
         int getNumOfDoors();
+        void DisplayRoomInfo();
+        string getTitle();
 
 };
 #endif

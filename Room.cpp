@@ -34,3 +34,28 @@ int Room::getNumOfDoors()
 {
     return this->currentNumberOfDoors;
 }
+
+void Room::DisplayRoomInfo()
+{
+    cout <<"You are currently at " << this->title << "\n";
+    for (int i =0; i < this->currentNumberOfDoors; i++)
+    {
+        if(this->getTitle() == collectionOfDoors[i]->roomA->title)
+        {
+            cout << collectionOfDoors[i]->roomB->title << " is to your " << 
+                collectionOfDoors[i]->directionToRoomB << ".\n";
+            //collectionOfDoors[i]->DisplayDoofo();
+        }
+        else if(this->getTitle() == collectionOfDoors[i]->roomB->title)
+        {
+            cout << collectionOfDoors[i]->roomA->title << " is to your " << 
+                collectionOfDoors[i]->directionToRoomA << ".\n";
+            //collectionOfDoors[i]->DisplayDoofo();
+        }
+    }
+}
+
+string Room::getTitle()
+{
+    return this->title;
+}

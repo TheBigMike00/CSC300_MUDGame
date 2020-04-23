@@ -83,7 +83,7 @@ Student* LinkedListOfStudents::removeAtIndex(int index)
                 firstPoint = firstPoint->getNextNode();
                 beforePoint = beforePoint->getNextNode();
             }
-            studentToReturn = firstPoint;
+            studentToReturn = firstPoint->getPayload();
             beforePoint->setNextNode((firstPoint->getNextNode()));
             firstPoint->setNextNode(0);
             this->count--;
@@ -99,7 +99,7 @@ int LinkedListOfStudents::indexOf(Student* s)
     StudentNode* traverse = this->head;
     for(int i = 0; i < this->count-1; i++)
     {
-        if(traverse == s)
+        if(traverse->getPayload() == s)
         {
             return index;
         }
@@ -109,5 +109,5 @@ int LinkedListOfStudents::indexOf(Student* s)
             index++;   
         }
     }
-    return -1
+    return -1;
 }

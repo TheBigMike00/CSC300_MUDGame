@@ -1,4 +1,5 @@
 #include "Door.hpp"
+using namespace std;
 
 Door::Door(string directionToRoomA, Room* roomA, string directionToRoomB, Room* roomB)
 {

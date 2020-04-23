@@ -1,5 +1,9 @@
 #include <iostream>
 #include "Room.hpp"
+#include "Student.hpp"
+#include "Door.hpp"
+#include "StudentNode.hpp"
+#include "LinkedListOfStudents.hpp"
 using namespace std;
 
 
@@ -55,13 +59,16 @@ int main()
 
 
     //Student creation
-    Student* wahl = new Student("Wahl-Breaker", hall1_75);
+    Student* newGuy = new Student("Wahl-Breaker", hall1_75);
     newGuy->getCurrRoom()->DisplayRoomInfo();
 
     //Implement user input
     string usrInput = "";
+    string q = "q";
     while(usrInput != q)
     {
+        newGuy->getCurrRoom()->DisplayRoomInfo();
+
         cout<<"Where would you like to go?(Type 'q' to quit) ";
         cin>>usrInput;
         newGuy->move(usrInput);
