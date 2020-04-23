@@ -1,10 +1,9 @@
 #include "Door.hpp"
-#include <iostream>
-using namespace std;
 
-Door::Door(Room* currRoom, Room* accessRoom, bool isLocked)
+Door::Door(string directionToRoomA, Room* roomA, string directionToRoomB, Room* roomB)
 {
-    this->currRoom = currRoom;
-    this->accessRoom = accessRoom;
-    this->isLocked = isLocked;
+    this->directionToRoomA = directionToRoomA;
+    this->directionToRoomB = directionToRoomB;
+    this->roomA = roomA;
+    this->roomB = roomB;
 }

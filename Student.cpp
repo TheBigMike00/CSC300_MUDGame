@@ -1,42 +1,37 @@
 #include "Student.hpp"
 
-Student::Student(string name, Room* startingPos)
+Student::Student(string name, Room* startingPoint)
 {
-    this->currRoom = startingPos;
     this->name = name;
-    this->currRoom->numOfPeople++;
-}
-
-void Student::move(int direction)
-{
-    if(direction == 1 && this->currRoom->northRoom)
-    {
-        this->currRoom->numOfPeople--;
-        this->currRoom = this->currRoom->northRoom;
-        this->currRoom->numOfPeople++;
-    }
-    else if(direction == 2 && this->currRoom->eastRoom)
-    {
-        this->currRoom->numOfPeople--;
-        this->currRoom = this->currRoom->eastRoom;
-        this->currRoom->numOfPeople++;
-    }
-    else if(direction == 3 && this->currRoom->southRoom)
-    {
-        this->currRoom->numOfPeople--;
-        this->currRoom = this->currRoom->southRoom;
-        this->currRoom->numOfPeople++;
-    }
-    else if(direction == 4 && this->currRoom->westRoom)
-    {
-        this->currRoom->numOfPeople--;
-        this->currRoom = this->currRoom->westRoom;
-        this->currRoom->numOfPeople++;
-    }
-    this->currRoom->DisplayRoomInfo();
+    this->currentRoom = startingPoint;
 }
 
 Room* Student::getCurrRoom()
 {
-    return this->currRoom;
+    return this->currentRoom;
+}
+
+void Student::move(string destination)
+{
+    for(int i = 0; i<this->currentRoom->getNumOfDoors(); i++)
+    {
+        Door* tempDoor = this->currentRoom->getDoorAtIndex[i];
+        if(this->currentRoom->title == tempDoor->roomA)
+        {
+            if(tempDoor->directionToRoomB == destination)
+            {
+                this->currentRoom->inhabitants--;
+                this->currentRoom = tempDoor->roomB
+            }
+        }
+        else if(this->currentRoom->title == tempDoor->roomB)
+        {
+            if(tempDoor->directionToRoomA == destination)
+            {
+                this->currentRoom->inhabitants--;
+                this->currentRoom = tempDoor->roomA
+            }
+        }
+        
+    }
 }
