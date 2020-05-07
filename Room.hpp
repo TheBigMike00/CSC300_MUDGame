@@ -1,29 +1,37 @@
-#include <string>
-#include "Door.hpp"
 #ifndef Room_hpp
 #define Room_hpp
 
+#include <string>
+#include "LinkedListOfStudents.hpp"
 
+class Door; // allows us to reference door when door refereneces Room.
 
 using namespace std;
-//class Door;
 
 class Room
 {
     private:
+        string title;
         Door* collectionOfDoors[10];
         int currentNumberOfDoors;
+        LinkedListOfStudents* theStudents;
+        //Item* itemsInRoom[10];
+        int currNumOfItems;
     
     public:
-        int inhabitants;
-        string title;
+        
+        Item* itemsInRoom[10];
         Room(string title);
-        void addDoor(Door* newDoor, Room* otherSide);
+        void addDoor(Door* aDoor);
         void display();
-        Door* getDoorAtIndex(int index);
-        int getNumOfDoors();
-        void DisplayRoomInfo();
-        string getTitle();
+        void addStudent(Student* aStudent);
+        void removeStudent(Student* aStudent);
+        void takeDoor(Student* aStudent, string direction);
+        void addItem(string itemName);
+        void lookAround();
 
+        bool isAItem(string itemName);
+        int getItemIndex(string ItemName);
+        int getCurrNumOfItems();
 };
 #endif

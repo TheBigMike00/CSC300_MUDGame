@@ -1,39 +1,109 @@
 #include "Student.hpp"
+#include "Room.hpp"
+#include <stdlib.h>
+#include <iostream>
 
-Student::Student(string name, Room* startingPoint)
+using namespace std;
+
+Student::Student(string name)
 {
     this->name = name;
-    this->currentRoom = startingPoint;
+    this->currentRoom = 0;
+    this->maxItemCount = 10;
+    this->currentItemCount = 0;
+    this->backpack = (Item**)malloc(this->maxItemCount * sizeof(Item*));
 }
 
-Room* Student::getCurrRoom()
+void Student::displayBackpackContents()
+{
+    for(int i = 0; i < this->currentItemCount; i++)
+    {
+        cout << this->backpack[i]->getName() << "\n";
+    }
+}
+
+bool Student::addItem(Item* anItem)
+{
+    if(this->currentItemCount == this->maxItemCount)
+    {
+        return false;
+    }
+    else
+    {
+        this->backpack[this->currentItemCount] = anItem;
+        this->currentItemCount++;
+        return true;
+    } 
+}
+
+string Student::getName()
+{
+    return this->name;
+}
+
+void Student::setCurrentRoom(Room* aRoom)
+{
+    this->currentRoom = aRoom;
+}
+
+Room* Student::getCurrentRoom()
 {
     return this->currentRoom;
 }
 
-void Student::move(string destination)
+Item* Student::dropItem(string itemToDrop)
 {
-    for(int i = 0; i<this->currentRoom->getNumOfDoors(); i++)
+    int index = getItemIndex(itemToDrop);
+    Item* droppingItem = this->backpack[index];
+    for (int i = index; i < this->currentItemCount; i++)
     {
-        Door* tempDoor = this->currentRoom->getDoorAtIndex(i);
-        if(this->currentRoom->title == tempDoor->roomA->title)
-        {
-            if(tempDoor->directionToRoomB == destination)
-            {
-                this->currentRoom->inhabitants--;
-                this->currentRoom = tempDoor->roomB;
-                tempDoor->roomA->inhabitants++;
-            }
-        }
-        else if(this->currentRoom->title == tempDoor->roomB->title)
-        {
-            if(tempDoor->directionToRoomA == destination)
-            {
-                this->currentRoom->inhabitants--;
-                this->currentRoom = tempDoor->roomA;
-                tempDoor->roomA->inhabitants++;
-            }
-        }
-        
+        backpack[i] = backpack[i+1];
     }
+    this->getCurrentRoom()->addItem(droppingItem->getName());
+    this->currentItemCount--;
+    return droppingItem;
+}
+
+void Student::pickupItem(string itemToPickup)
+{
+    bool verify = this->getCurrentRoom()->isAItem(itemToPickup);
+    if (verify = true)
+    {
+        int roomItemIndex = this->getCurrentRoom()->getItemIndex(itemToPickup);
+        Item* itemWeWillPickUp = this->getCurrentRoom()->itemsInRoom[roomItemIndex];
+        for (int i = roomItemIndex; i < this->getCurrentRoom()->getCurrNumOfItems(); i++)
+        {
+            this->getCurrentRoom()->itemsInRoom[i] = this->getCurrentRoom()->itemsInRoom[i+1];
+        }
+        this->backpack[currentItemCount] = itemWeWillPickUp;
+        currentItemCount++;
+    }
+}
+
+int Student::getItemIndex(string itemName)
+{
+    bool verificate = isAItem(itemName);
+    if (verificate = true)
+    {
+        for (int i = 0; i < this->currentItemCount; i++)
+        {
+            if (itemName == this->backpack[i]->getName())
+            {
+                return i;
+            }
+        }
+    }
+    return -1;
+}
+
+bool Student::isAItem(string itemName)
+{
+    for (int i = 0; i < this->currentItemCount; i++)
+    {
+        if (itemName == this->backpack[i]->getName())
+        {
+            return true;
+        }
+    }
+    return false;
 }

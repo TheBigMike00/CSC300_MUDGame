@@ -55,7 +55,6 @@ Student* LinkedListOfStudents::removeAtIndex(int index)
             //remove from front
             studentToReturn = this->head->getPayload();
             this->head = this->head->getNextNode();
-            this->count--;
         }
         else if(index == this->count - 1)
         {
@@ -70,44 +69,49 @@ Student* LinkedListOfStudents::removeAtIndex(int index)
             StudentNode* nodeToDelete = currNode->getNextNode();
             currNode->setNextNode(0);
             delete nodeToDelete;
-            this->count--;
         }
         else
         {
             //remove from the middle
-            StudentNode* firstPoint = this->head->getNextNode();
-            StudentNode* beforePoint = this->head;
-
-            for(int i = index-1; i>0; i--)
+            StudentNode* currNode = this->head;
+            for(int i = 0; i < index-1; i++)
             {
-                firstPoint = firstPoint->getNextNode();
-                beforePoint = beforePoint->getNextNode();
+                currNode = currNode->getNextNode();
             }
-            studentToReturn = firstPoint->getPayload();
-            beforePoint->setNextNode((firstPoint->getNextNode()));
-            firstPoint->setNextNode(0);
-            this->count--;
+            studentToReturn = currNode->getNextNode()->getPayload();
+            StudentNode* nodeToDelete = currNode->getNextNode();
+            currNode->setNextNode(nodeToDelete->getNextNode());
+            nodeToDelete->setNextNode(0);
+            delete nodeToDelete;
         }
+        this->count--;
         return studentToReturn;
     }
     
 }
 
+int LinkedListOfStudents::getCount()
+{
+    return this->count;
+}
+
 int LinkedListOfStudents::indexOf(Student* s)
 {
-    int index = 0;
-    StudentNode* traverse = this->head;
-    for(int i = 0; i < this->count-1; i++)
+    if(!this->head)
     {
-        if(traverse->getPayload() == s)
+        return -1;
+    }
+
+    StudentNode* currNode = this->head;
+    int pos = 0;
+    while(currNode->getNextNode())
+    {
+        if(currNode->getPayload() == s)
         {
-            return index;
+            return pos;
         }
-        else
-        {
-            traverse = traverse->getNextNode();
-            index++;   
-        }
+        pos++;
+        currNode = currNode->getNextNode();
     }
     return -1;
 }
